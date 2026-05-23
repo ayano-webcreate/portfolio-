@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>山野きこ | 陶芸家・器作家</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --off-white:     #F8F5F0;
+      --white:         #FFFFFF;
+      --greige-light:  #EDE6DE;
+      --greige:        #D9CFC4;
+      --greige-dark:   #C4B8A8;
+      --terra:         #B86840;
+      --terra-dark:    #9A5430;
+      --terra-light:   #F4E8DE;
+      --dark:          #1E1812;
+      --text:          #28201A;
+      --text-mid:      #6A5A4E;
+      --text-muted:    #9A8C82;
+      --border:        #DDD5CC;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--off-white);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .reveal.on { opacity: 1; transform: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 1000;
+      transition: background .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    header.solid {
+      background: rgba(248,245,240,.96);
+      backdrop-filter: blur(12px);
+      border-color: var(--border);
+    }
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--white);
+      transition: color .3s;
+    }
+    header.solid .logo { color: var(--text); }
+    .logo span {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      transition: color .3s;
+    }
+    header.solid .logo span { color: var(--text-muted); }
+
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .95rem;
+      font-weight: 400;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      transition: color .25s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: currentColor;
+      transition: width .3s;
+    }
+    nav a:hover { color: rgba(255,255,255,1); }
+    nav a:hover::after { width: 100%; }
+    header.solid nav a { color: var(--text-muted); }
+    header.solid nav a:hover { color: var(--terra); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none; border: none;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--white);
+      transition: transform .3s, opacity .3s, background .3s;
+    }
+    header.solid .hamburger span { background: var(--text); }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ken Burns animation on background */
+    .hero-bg {
+      position: absolute;
+      inset: -5%;
+      background:
+        url('https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=85&fit=crop') center/cover no-repeat;
+      animation: ken-burns 22s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    @keyframes ken-burns {
+      0%   { transform: scale(1)    translate(0, 0); }
+      50%  { transform: scale(1.05) translate(-1.5%, .8%); }
+      100% { transform: scale(1.03) translate(1%, -1%); }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15,10,5,.52) 0%,
+        rgba(15,10,5,.35) 50%,
+        rgba(15,10,5,.65) 100%
+      );
+    }
+
+    /* Floating particles container */
+    #particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .75rem;
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fade-in .8s ease forwards .2s;
+    }
+
+    .hero-catch {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 4px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+    /* JS will split chars; CSS handles each span */
+    .hero-catch .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: char-rise .7s cubic-bezier(.25,.46,.45,.94) forwards;
+    }
+
+    .hero-name-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .85rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fade-in .8s ease forwards 1.8s;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border: 1px solid rgba(255,255,255,.5);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .95rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: all .35s;
+      opacity: 0;
+      animation: fade-in .8s ease forwards 2.1s;
+    }
+    .hero-btn:hover {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.8);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,.4);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .65rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fade-in .8s ease forwards 2.5s;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.5), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { transform: scaleY(1); opacity: .5; }
+      50%       { transform: scaleY(.5); opacity: .2; }
+    }
+
+    /* Spinning pottery wheel decoration */
+    .wheel-deco {
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      animation: wheel-spin 30s linear infinite;
+      pointer-events: none;
+    }
+    .wheel-deco::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    .wheel-deco::after {
+      content: '';
+      position: absolute;
+      top: 10%; left: 50%;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(184,104,64,.6);
+      transform: translateX(-50%);
+      box-shadow: 0 0 8px rgba(184,104,64,.4);
+    }
+    @keyframes wheel-spin {
+      from { transform: translateY(-50%) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes char-rise {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 112px 32px; }
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+
+    .section-no {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .section-title-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .8rem;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+    }
+    .divider {
+      width: 40px; height: 1px;
+      background: var(--terra);
+      margin: 16px 0 48px;
+    }
+
+    /* ── PROFILE ── */
+    #profile { background: var(--white); }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .profile-img-frame {
+      position: relative;
+    }
+    .profile-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .profile-img-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, var(--greige-light) 0%, var(--greige) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+    }
+    .profile-img-deco {
+      position: absolute;
+      bottom: -20px; right: -20px;
+      width: 60%;
+      height: 60%;
+      border: 1px solid var(--greige);
+      z-index: -1;
+    }
+    .profile-caption {
+      margin-top: 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .profile-tag {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .72rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--terra);
+      border: 1px solid var(--terra-light);
+      background: var(--terra-light);
+      padding: 4px 14px;
+      margin-bottom: 20px;
+    }
+
+    .profile-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 4px;
+      margin-bottom: 4px;
+    }
+    .profile-name-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .9rem;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .profile-text {
+      font-size: .9rem;
+      color: var(--text-mid);
+      line-height: 2.1;
+      margin-bottom: 32px;
+    }
+
+    .profile-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 32px;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+    .fact-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .fact-value {
+      font-size: .85rem;
+      color: var(--text-mid);
+    }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--off-white); }
+
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+    .gallery-count {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding-bottom: 4px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 280px;
+      gap: 14px;
+    }
+    /* Tall items */
+    .gallery-item:nth-child(1),
+    .gallery-item:nth-child(5) { grid-row: span 2; }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--greige-light);
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .8s cubic-bezier(.25,.46,.45,.94);
+      display: block;
+    }
+    .gallery-fallback {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: var(--greige-light);
+      font-size: 3rem;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .gallery-fallback span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,14,8,0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 24px;
+      transition: background .4s;
+    }
+    .gallery-label {
+      font-family: 'Noto Serif JP', serif;
+      font-size: .9rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .35s, transform .35s;
+    }
+    .gallery-label-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .35s .05s, transform .35s .05s;
+      margin-top: 4px;
+    }
+
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item:hover .gallery-overlay { background: rgba(20,14,8,.45); }
+    .gallery-item:hover .gallery-label,
+    .gallery-item:hover .gallery-label-en {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── SHOP ── */
+    #shop {
+      background: var(--dark);
+      padding: 120px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #shop::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.04);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ring-pulse 8s ease-in-out infinite;
+    }
+    #shop::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,104,64,.1);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: ring-pulse 8s ease-in-out infinite .5s;
+    }
+    @keyframes ring-pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+      50%       { transform: translate(-50%, -50%) scale(1.05); opacity: .6; }
+    }
+
+    .shop-eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      margin-bottom: 20px;
+    }
+    .shop-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 400;
+      color: var(--white);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .shop-desc {
+      font-size: .85rem;
+      color: rgba(255,255,255,.45);
+      letter-spacing: 1px;
+      margin-bottom: 44px;
+      position: relative;
+      z-index: 1;
+    }
+    .shop-btn {
+      display: inline-block;
+      padding: 16px 48px;
+      background: var(--terra);
+      color: var(--white);
+      font-family: 'Noto Serif JP', serif;
+      font-size: .95rem;
+      letter-spacing: 2px;
+      transition: all .3s;
+      position: relative;
+      z-index: 1;
+    }
+    .shop-btn:hover {
+      background: var(--terra-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(184,104,64,.3);
+    }
+    .shop-note {
+      margin-top: 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .72rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--white); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-info-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .contact-info-text {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.95;
+      margin-bottom: 32px;
+    }
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contact-list li {
+      font-size: .82rem;
+      color: var(--text-mid);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .contact-list li::before {
+      content: '—';
+      color: var(--terra);
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      background: var(--off-white);
+      padding: 44px 40px;
+    }
+
+    .form-group { margin-bottom: 24px; }
+    label {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .72rem;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    label .req { color: var(--terra); margin-left: 2px; }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      font-size: .88rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      border-radius: 0;
+      transition: border-color .25s;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--terra);
+    }
+    input.err, select.err, textarea.err {
+      border-color: #B84040;
+    }
+    select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A8C82' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 24px;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+
+    .err-msg {
+      display: none;
+      font-size: .72rem;
+      color: #B84040;
+      margin-top: 4px;
+      letter-spacing: .3px;
+    }
+    .err-msg.show { display: block; }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--text);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: background .25s;
+      margin-top: 8px;
+    }
+    .submit-btn:hover { background: var(--terra); }
+
+    #contact-success {
+      display: none;
+      padding: 20px 24px;
+      background: var(--terra-light);
+      border-left: 2px solid var(--terra);
+      font-size: .88rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-top: 16px;
+    }
+    #contact-success.show { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      padding: 60px 32px 32px;
+    }
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      margin-bottom: 28px;
+    }
+    .footer-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: rgba(255,255,255,.8);
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+    .footer-logo-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .7rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.25);
+    }
+    .footer-nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .footer-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      transition: color .2s;
+    }
+    .footer-nav a:hover { color: rgba(255,255,255,.7); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copy {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .72rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.2);
+    }
+    .footer-sample {
+      font-size: .65rem;
+      color: rgba(255,255,255,.15);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .profile-grid { grid-template-columns: 1fr; gap: 48px; }
+      .profile-img-frame { max-width: 360px; }
+      .profile-img-deco { display: none; }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 240px;
+      }
+      .gallery-item:nth-child(5) { grid-row: span 1; }
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+      .wheel-deco { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 80px 20px; }
+      .header-inner { padding: 0 20px; }
+
+      nav ul {
+        display: none;
+        position: fixed;
+        top: 70px; left: 0;
+        width: 100%;
+        background: rgba(248,245,240,.97);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 0;
+      }
+      nav ul.open { display: flex; }
+      nav a {
+        display: block;
+        padding: 14px 28px;
+        font-size: 1rem;
+        color: var(--text-mid) !important;
+        letter-spacing: 2px;
+      }
+      nav a::after { display: none; }
+      .hamburger { display: flex; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 180px;
+      }
+      .gallery-item:nth-child(1) { grid-row: span 2; }
+      .gallery-item:nth-child(5) { grid-row: span 1; }
+
+      .contact-form { padding: 32px 24px; }
+      .footer-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="logo">
+        山野きこ
+        <span>Kiko Yamano — Ceramics</span>
+      </a>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#profile" onclick="closeMenu()">Profile</a></li>
+          <li><a href="#gallery" onclick="closeMenu()">Gallery</a></li>
+          <li><a href="#shop"    onclick="closeMenu()">Shop</a></li>
+          <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div id="particles"></div>
+    <div class="wheel-deco"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Kiko Yamano — Ceramics Artist</p>
+      <h1 class="hero-catch">土から生まれる、暮らしの器。</h1>
+      <p class="hero-name-en">Vessels born from the earth</p>
+      <a href="#gallery" class="hero-btn">View Works</a>
+    </div>
+    <div class="hero-scroll">
+      scroll
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ── PROFILE ── -->
+  <section id="profile">
+    <div class="section-inner">
+      <div class="profile-grid">
+
+        <div class="profile-img-frame reveal">
+          <img
+            class="profile-img"
+            src="https://cdn.pakutaso.com/shared/img/thumb/nogata-susi-PAR53884-9388_TP_V.jpg"
+            alt="山野きこ 制作風景"
+            onerror="this.style.display='none';document.getElementById('profile-fallback').style.display='flex'">
+          <div id="profile-fallback" class="profile-img-placeholder" style="display:none">🏺</div>
+          <div class="profile-img-deco"></div>
+          <p class="profile-caption">At the studio, 2024</p>
+        </div>
+
+        <div class="reveal">
+          <span class="profile-tag">Ceramics Artist</span>
+          <h2 class="profile-name">山野 きこ</h2>
+          <p class="profile-name-en">Kiko Yamano</p>
+          <div class="divider"></div>
+          <p class="profile-text">
+            1988年、石川県生まれ。金沢工芸大学にて陶芸を専攻し、伝統の技と現代のデザイン感覚を融合させた独自のスタイルを確立。卒業後は京都の陶芸家・渡辺宗一郎氏に師事し、土の選定から釉薬の調合まで、ものづくりの根幹を深く学ぶ。
+          </p>
+          <p class="profile-text">
+            2016年に東京・世田谷に自らのアトリエ「土音工房」を開設。「毎日の暮らしに溶け込む器」をテーマに、使う人の手になじむ形と、時間とともに育つ素材感を大切にした作品を制作し続けている。
+          </p>
+          <p class="profile-text">
+            国内外の展覧会への出展、カフェや料理家とのコラボレーションを重ね、2020年よりオンラインでの作品販売を開始。丁寧な暮らしを愛する方々から幅広い支持を受けている。
+          </p>
+          <div class="profile-facts">
+            <div>
+              <p class="fact-label">Studio</p>
+              <p class="fact-value">土音工房（東京・世田谷）</p>
+            </div>
+            <div>
+              <p class="fact-label">Specialty</p>
+              <p class="fact-value">陶器・磁器・釉薬研究</p>
+            </div>
+            <div>
+              <p class="fact-label">Education</p>
+              <p class="fact-value">金沢工芸大学 陶芸専攻</p>
+            </div>
+            <div>
+              <p class="fact-label">Awards</p>
+              <p class="fact-value">日本工芸展 入選（2019, 2022）</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── GALLERY ── -->
+  <section id="gallery">
+    <div class="section-inner">
+      <div class="gallery-header reveal">
+        <div>
+          <p class="section-no">Gallery</p>
+          <h2 class="section-title">作品一覧</h2>
+          <p class="section-title-en">Selected Works 2022 – 2024</p>
+        </div>
+        <p class="gallery-count">07 works</p>
+      </div>
+
+      <div class="gallery-grid">
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=85&fit=crop&crop=center"
+               alt="白磁の鉢"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🏺<span>白磁の鉢</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">白磁の鉢</p>
+            <p class="gallery-label-en">White Porcelain Bowl</p>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=600&q=85&fit=crop&crop=center"
+               alt="灰釉のマグ"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">☕<span>灰釉のマグ</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">灰釉のマグ</p>
+            <p class="gallery-label-en">Ash Glaze Mug</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=600&q=85&fit=crop&crop=center"
+               alt="黒泥の皿"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🫙<span>黒泥の皿</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">黒泥の皿</p>
+            <p class="gallery-label-en">Black Clay Plate</p>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1523367310297-83064fc42a16?w=600&q=85&fit=crop"
+               alt="粉引の小鉢"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🍚<span>粉引の小鉢</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">粉引の小鉢</p>
+            <p class="gallery-label-en">Kohiki Small Bowl</p>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1594823677827-9177bed72e5d?w=600&q=85&fit=crop"
+               alt="自然釉の徳利"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🍶<span>自然釉の徳利</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">自然釉の徳利</p>
+            <p class="gallery-label-en">Natural Ash Tokkuri</p>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1622947344865-a7fcf40e88e7?w=600&q=85&fit=crop"
+               alt="備前風の湯のみ"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🍵<span>備前風の湯のみ</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">備前風の湯のみ</p>
+            <p class="gallery-label-en">Bizen-style Yunomi</p>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1529136490842-e2da7a4c7b74?w=600&q=85&fit=crop"
+               alt="錆釉の花器"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="gallery-fallback">🌺<span>錆釉の花器</span></div>
+          <div class="gallery-overlay">
+            <p class="gallery-label">錆釉の花器</p>
+            <p class="gallery-label-en">Rust Glaze Flower Vase</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── SHOP ── -->
+  <section id="shop">
+    <div class="section-inner" style="text-align:center;position:relative;z-index:1">
+      <p class="shop-eyebrow reveal">Online Shop</p>
+      <h2 class="shop-title reveal">作品を購入する</h2>
+      <p class="shop-desc reveal">
+        minneにてオンラインにて販売しております。<br>
+        一点一点、手仕事でつくった器をぜひご覧ください。
+      </p>
+      <a href="https://minne.com" target="_blank" rel="noopener" class="shop-btn reveal">
+        minne で購入する →
+      </a>
+      <p class="shop-note reveal">※ 外部サイト（minne.com）が開きます</p>
+    </div>
+  </section>
+
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+
+        <div class="reveal">
+          <p class="section-no">Contact</p>
+          <h2 class="section-title">お問い合わせ</h2>
+          <div class="divider"></div>
+          <h3 class="contact-info-title">制作依頼・コラボのご相談</h3>
+          <p class="contact-info-text">
+            器の制作依頼、展示へのお誘い、<br>
+            コラボレーションなど、<br>
+            お気軽にご連絡ください。<br>
+            3営業日以内にご返信いたします。
+          </p>
+          <ul class="contact-list">
+            <li>オーダーメイドの器（納期：2〜3ヶ月）</li>
+            <li>カフェ・レストランへの器の提供</li>
+            <li>ワークショップ・イベントのご依頼</li>
+            <li>メディア・取材のご依頼</li>
+          </ul>
+        </div>
+
+        <div class="reveal">
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="c-name">お名前<span class="req">*</span></label>
+              <input type="text" id="c-name" placeholder="山田 花子">
+              <span class="err-msg" id="err-name">お名前を入力してください</span>
+            </div>
+            <div class="form-group">
+              <label for="c-email">メールアドレス<span class="req">*</span></label>
+              <input type="email" id="c-email" placeholder="hanako@example.com">
+              <span class="err-msg" id="err-email">有効なメールアドレスを入力してください</span>
+            </div>
+            <div class="form-group">
+              <label for="c-type">お問い合わせ種別<span class="req">*</span></label>
+              <select id="c-type">
+                <option value="">選択してください</option>
+                <option>制作依頼について</option>
+                <option>コラボレーション相談</option>
+                <option>作品についての質問</option>
+                <option>メディア・取材</option>
+                <option>その他</option>
+              </select>
+              <span class="err-msg" id="err-type">種別を選択してください</span>
+            </div>
+            <div class="form-group">
+              <label for="c-msg">メッセージ<span class="req">*</span></label>
+              <textarea id="c-msg" placeholder="ご依頼の詳細やご質問をご記入ください。"></textarea>
+              <span class="err-msg" id="err-msg">メッセージを入力してください</span>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+            <p style="margin-top:10px;font-size:.72rem;color:var(--text-muted);letter-spacing:.3px;">※ デモ用フォームです。実際のお問い合わせは行われません。</p>
+          </form>
+          <div id="contact-success">
+            お問い合わせありがとうございます。<br>
+            3営業日以内にご返信いたします。
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <p class="footer-logo">山野きこ</p>
+          <p class="footer-logo-en">Kiko Yamano — Ceramics Artist, Tokyo</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="#profile">Profile</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#shop">Shop</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Kiko Yamano. All rights reserved.</p>
+        <p class="footer-sample">※ このサイトは制作サンプルです</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // ── Header opacity on scroll ──
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('solid', window.scrollY > 80);
+    }, { passive: true });
+
+    // ── Hamburger menu ──
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navMenu.classList.toggle('open');
+    });
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      navMenu.classList.remove('open');
+    }
+
+    // ── Hero: character-by-character reveal ──
+    const catchEl = document.querySelector('.hero-catch');
+    catchEl.innerHTML = [...catchEl.textContent].map((ch, i) =>
+      `<span class="char" style="animation-delay:${.6 + i * .07}s">${ch === ' ' ? '&nbsp;' : ch}</span>`
+    ).join('');
+
+    // ── Hero: floating dust particles ──
+    (function spawnParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        const size = 1.5 + Math.random() * 3;
+        el.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          border-radius: 50%;
+          background: rgba(255,255,255,${.15 + Math.random() * .25});
+          left: ${Math.random() * 100}%;
+          bottom: ${Math.random() * 40}%;
+          animation: particle-float ${7 + Math.random() * 8}s ease-in-out infinite;
+          animation-delay: ${Math.random() * 10}s;
+        `;
+        container.appendChild(el);
+      }
+    })();
+
+    // Add particle keyframes dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes particle-float {
+        0%   { transform: translate(0, 0)          scale(1);   opacity: 0; }
+        15%  { opacity: 1; }
+        50%  { transform: translate(${randRange(-25,25)}px, -60px) scale(.8); }
+        100% { transform: translate(${randRange(-15,15)}px, -120px) scale(.5); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+    function randRange(min, max) { return Math.floor(Math.random() * (max - min) + min); }
+
+    // ── Scroll reveal (IntersectionObserver) ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('on'), i * 100);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── Contact form validation ──
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const fields = [
+        { el: document.getElementById('c-name'),  errId: 'err-name',  ok: v => v.trim() !== '' },
+        { el: document.getElementById('c-email'), errId: 'err-email', ok: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+        { el: document.getElementById('c-type'),  errId: 'err-type',  ok: v => v !== '' },
+        { el: document.getElementById('c-msg'),   errId: 'err-msg',   ok: v => v.trim() !== '' },
+      ];
+      let valid = true;
+      fields.forEach(f => {
+        const pass = f.ok(f.el.value);
+        f.el.classList.toggle('err', !pass);
+        document.getElementById(f.errId).classList.toggle('show', !pass);
+        if (!pass) valid = false;
+      });
+      if (valid) {
+        document.getElementById('contact-form').style.display = 'none';
+        document.getElementById('contact-success').classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>

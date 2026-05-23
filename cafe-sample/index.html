@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>森の実 | 自然派カフェ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:        #7B9C7E;
+      --sage-dark:   #5A7B5D;
+      --sage-deep:   #2D5032;
+      --sage-light:  #EEF4EF;
+      --olive:       #6B7C4D;
+      --cream:       #FAF6EF;
+      --cream-2:     #F3EAD8;
+      --beige:       #E8DCC8;
+      --brown:       #3E2723;
+      --brown-mid:   #6D4C41;
+      --text:        #2A1F15;
+      --text-mid:    #5D4037;
+      --text-muted:  #917060;
+      --border:      #D8CEBC;
+      --white:       #FFFFFF;
+      --r:           14px;
+      --r-sm:        8px;
+      --shadow:      0 2px 18px rgba(40,55,30,.09);
+      --shadow-lg:   0 8px 36px rgba(40,55,30,.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans JP', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── SCROLL ANIMATION ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 1000;
+      transition: background .35s, box-shadow .35s;
+    }
+    header.solid {
+      background: rgba(250,246,239,.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 20px rgba(40,55,30,.08);
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 2px;
+      transition: color .3s;
+    }
+    header.solid .logo { color: var(--sage-deep); }
+
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav a {
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .5px;
+      color: rgba(255,255,255,.9);
+      transition: color .2s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1.5px;
+      background: currentColor;
+      transition: width .25s;
+    }
+    nav a:hover::after { width: 100%; }
+    header.solid nav a { color: var(--text-mid); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s, background .3s;
+    }
+    header.solid .hamburger span { background: var(--text); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: inherit;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      cursor: pointer;
+      border: none;
+      transition: all .25s;
+    }
+    .btn-hero {
+      background: rgba(255,255,255,.18);
+      border: 1.5px solid rgba(255,255,255,.7);
+      color: var(--white);
+      backdrop-filter: blur(6px);
+    }
+    .btn-hero:hover {
+      background: rgba(255,255,255,.3);
+      transform: translateY(-2px);
+    }
+    .btn-sage {
+      background: var(--sage-deep);
+      color: var(--white);
+      box-shadow: 0 4px 18px rgba(45,80,50,.28);
+    }
+    .btn-sage:hover {
+      background: var(--sage-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(45,80,50,.32);
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 104px 28px; }
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 10px;
+    }
+    .section-eyebrow::before,
+    .section-eyebrow::after {
+      content: '';
+      display: block;
+      width: 24px; height: 1px;
+      background: var(--sage-dark);
+    }
+
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 14px;
+      letter-spacing: .5px;
+    }
+    .section-title-light { color: var(--white); }
+
+    .section-desc {
+      font-size: .92rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      max-width: 520px;
+      margin-bottom: 56px;
+    }
+    .section-desc-light { color: rgba(255,255,255,.75); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(15,30,10,.5) 0%, rgba(15,30,10,.35) 60%, rgba(15,30,10,.55) 100%),
+        url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80&fit=crop') center/cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-leaf {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      opacity: .9;
+      letter-spacing: 8px;
+    }
+
+    .hero-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(3.5rem, 9vw, 6.5rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 12px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 24px rgba(0,0,0,.3);
+    }
+
+    .hero-logo-sub {
+      font-size: .8rem;
+      color: rgba(255,255,255,.65);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .hero-catch {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: rgba(255,255,255,.93);
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin-bottom: 44px;
+      line-height: 1.6;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.55);
+      font-size: .7rem;
+      letter-spacing: 2px;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px; height: 48px;
+      background: rgba(255,255,255,.35);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(1); transform-origin: top; }
+      50%  { transform: scaleY(.3); transform-origin: top; }
+      51%  { transform: scaleY(.3); transform-origin: bottom; }
+      100% { transform: scaleY(1); transform-origin: bottom; }
+    }
+
+    /* ── CONCEPT ── */
+    #concept {
+      background: var(--sage-deep);
+      padding: 96px 28px;
+    }
+    #concept .section-eyebrow { color: rgba(255,255,255,.6); }
+    #concept .section-eyebrow::before,
+    #concept .section-eyebrow::after { background: rgba(255,255,255,.4); }
+
+    .concept-lead {
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: rgba(255,255,255,.93);
+      line-height: 2;
+      margin-bottom: 64px;
+      max-width: 620px;
+    }
+
+    .concept-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(255,255,255,.08);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .pillar {
+      background: rgba(255,255,255,.04);
+      padding: 40px 32px;
+      text-align: center;
+      transition: background .25s;
+    }
+    .pillar:hover { background: rgba(255,255,255,.09); }
+
+    .pillar-icon { font-size: 2.4rem; margin-bottom: 16px; }
+
+    .pillar-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.95);
+      margin-bottom: 10px;
+      letter-spacing: .5px;
+    }
+
+    .pillar-desc {
+      font-size: .82rem;
+      color: rgba(255,255,255,.6);
+      line-height: 1.8;
+    }
+
+    /* ── MENU ── */
+    #menu { background: var(--cream); }
+
+    .menu-category {
+      margin-bottom: 60px;
+    }
+    .menu-category:last-child { margin-bottom: 0; }
+
+    .menu-cat-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .menu-cat-label span {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 2px;
+    }
+    .menu-cat-label::before,
+    .menu-cat-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .menu-cat-label::before { max-width: 0; flex: 0; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .menu-card {
+      background: var(--white);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+    }
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .menu-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: var(--cream-2);
+    }
+    .menu-img-placeholder {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .menu-body { padding: 20px 22px 24px; }
+
+    .menu-tag {
+      display: inline-block;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      background: var(--sage-light);
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-bottom: 8px;
+    }
+
+    .menu-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .menu-name-en {
+      font-size: .72rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .menu-desc {
+      font-size: .8rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .menu-price {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--olive);
+    }
+    .menu-price small {
+      font-size: .7rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+
+    /* ── ACCESS ── */
+    #access { background: var(--cream-2); }
+
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .map-box {
+      border-radius: var(--r);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: #C8DBC9;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(90,123,93,.13) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(90,123,93,.13) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+    .map-roads {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.45) 3px, transparent 3px),
+        linear-gradient(90deg, rgba(255,255,255,.45) 3px, transparent 3px);
+      background-size: 132px 132px;
+    }
+    .map-marker {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -70%);
+      font-size: 2.6rem;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,.25));
+      animation: bounce 2s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translate(-50%, -70%); }
+      50%       { transform: translate(-50%, -82%); }
+    }
+    .map-label {
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: .78rem;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--text);
+      box-shadow: 0 2px 10px rgba(0,0,0,.14);
+    }
+
+    .access-info { display: flex; flex-direction: column; gap: 28px; }
+
+    .access-block {}
+    .access-block-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 8px;
+    }
+    .access-block-label .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--sage);
+    }
+    .access-block-value {
+      font-size: .9rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+    }
+    .access-block-value strong {
+      display: block;
+      font-size: .95rem;
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .access-hours-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .access-hours-table tr + tr td { padding-top: 4px; }
+    .access-hours-table td {
+      font-size: .88rem;
+      color: var(--text-mid);
+      vertical-align: top;
+    }
+    .access-hours-table td:first-child {
+      width: 100px;
+      color: var(--text-muted);
+    }
+
+    /* ── CHEF ── */
+    #chef { background: var(--cream); }
+
+    .chef-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .chef-img-wrap { position: relative; }
+    .chef-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 20px 20px 60px 20px;
+      box-shadow: var(--shadow-lg);
+    }
+    .chef-img-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 20px 20px 60px 20px;
+      background: linear-gradient(135deg, #D4E4D5 0%, #B8CEB9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .chef-deco {
+      position: absolute;
+      bottom: -16px;
+      right: -16px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      border: 3px solid var(--beige);
+      z-index: -1;
+    }
+
+    .chef-tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      background: var(--sage-light);
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(90,123,93,.2);
+    }
+    .chef-name {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .chef-name-ruby {
+      font-size: .8rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .chef-text {
+      font-size: .92rem;
+      color: var(--text-mid);
+      line-height: 2.1;
+      margin-bottom: 28px;
+    }
+    .chef-sign {
+      font-family: 'Noto Serif JP', serif;
+      font-size: .85rem;
+      color: var(--sage-dark);
+      font-style: italic;
+      padding: 16px 20px;
+      border-left: 3px solid var(--sage);
+      background: var(--sage-light);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    }
+
+    /* ── RESERVATION ── */
+    #reserve { background: var(--sage-light); }
+
+    .reserve-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .reserve-info-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .reserve-info-text {
+      font-size: .88rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+    .reserve-notes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .reserve-notes li {
+      display: flex;
+      gap: 10px;
+      font-size: .82rem;
+      color: var(--text-mid);
+    }
+    .reserve-notes li::before {
+      content: '🌿';
+      font-size: .75rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .reserve-card {
+      background: var(--white);
+      border-radius: var(--r);
+      padding: 40px 36px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: .3px;
+    }
+    label .req { color: #C0714A; margin-left: 3px; }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: .88rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      appearance: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(123,156,126,.15);
+      background: var(--white);
+    }
+    input.err, select.err {
+      border-color: #C0714A;
+      box-shadow: 0 0 0 3px rgba(192,113,74,.12);
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: .75rem;
+    }
+
+    .err-msg {
+      display: none;
+      font-size: .72rem;
+      color: #C0714A;
+      margin-top: 4px;
+    }
+    .err-msg.show { display: block; }
+
+    #form-note {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #reserve-success {
+      display: none;
+      background: var(--sage-light);
+      border: 1px solid rgba(90,123,93,.3);
+      color: var(--sage-deep);
+      padding: 20px 24px;
+      border-radius: var(--r-sm);
+      font-size: .9rem;
+      line-height: 1.8;
+      margin-top: 16px;
+    }
+    #reserve-success.show { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--brown);
+      padding: 52px 28px 28px;
+    }
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 24px;
+    }
+    .footer-logo {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.9);
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .footer-tagline {
+      font-size: .75rem;
+      color: rgba(255,255,255,.45);
+      letter-spacing: 1.5px;
+    }
+    .footer-nav {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .footer-nav a {
+      font-size: .78rem;
+      color: rgba(255,255,255,.5);
+      transition: color .2s;
+    }
+    .footer-nav a:hover { color: rgba(255,255,255,.85); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copy {
+      font-size: .72rem;
+      color: rgba(255,255,255,.3);
+    }
+    .footer-sample {
+      font-size: .68rem;
+      color: rgba(255,255,255,.2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .concept-pillars { grid-template-columns: 1fr; }
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+      .access-grid, .chef-grid, .reserve-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .chef-grid { grid-template-columns: 1fr; }
+      .chef-img-placeholder { aspect-ratio: 16/9; border-radius: var(--r); }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 80px 20px; }
+
+      nav ul {
+        display: none;
+        position: fixed;
+        top: 68px; left: 0;
+        width: 100%;
+        background: rgba(250,246,239,.97);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 0;
+        padding: 8px 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      }
+      nav ul.open { display: flex; }
+      nav a {
+        display: block;
+        padding: 14px 28px;
+        font-size: .92rem;
+        color: var(--text-mid) !important;
+      }
+      nav a::after { display: none; }
+      .hamburger { display: flex; }
+
+      .menu-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .reserve-card { padding: 28px 20px; }
+      .footer-top { flex-direction: column; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="logo">森の実</a>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#concept" onclick="closeMenu()">コンセプト</a></li>
+          <li><a href="#menu"    onclick="closeMenu()">メニュー</a></li>
+          <li><a href="#access"  onclick="closeMenu()">アクセス</a></li>
+          <li><a href="#chef"    onclick="closeMenu()">シェフ紹介</a></li>
+          <li><a href="#reserve" onclick="closeMenu()">ご予約</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-leaf">🌿 🍃 🌿</p>
+      <h1 class="hero-logo">森の実</h1>
+      <p class="hero-logo-sub">Mori no Mi — Natural Café</p>
+      <p class="hero-catch">
+        自然のめぐみを、ゆっくりと。
+      </p>
+      <a href="#reserve" class="btn btn-hero">ご予約はこちら</a>
+    </div>
+    <div class="hero-scroll">scroll</div>
+  </section>
+
+
+  <!-- ── CONCEPT ── -->
+  <section id="concept">
+    <div class="section-inner">
+      <p class="section-eyebrow fade-up" style="color:rgba(255,255,255,.55)">Concept</p>
+      <h2 class="section-title section-title-light fade-up">
+        大地の恵みと、<br>静かな時間を。
+      </h2>
+      <p class="concept-lead fade-up">
+        「森の実」は、国内の有機農家と直接取引した旬の食材だけを使う自然派カフェです。
+        添加物や余分なものは一切使わず、素材そのものの味わいを大切にしています。
+        忙しい日常から少し離れて、ここでしか出会えない本物の美味しさをゆっくりとお楽しみください。
+      </p>
+      <div class="concept-pillars fade-up">
+        <div class="pillar">
+          <div class="pillar-icon">🌱</div>
+          <h3 class="pillar-title">有機農家直送</h3>
+          <p class="pillar-desc">信頼できる国内の有機農家から、旬の野菜・ハーブを直接仕入れています。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🍵</div>
+          <h3 class="pillar-title">無添加・自然素材</h3>
+          <p class="pillar-desc">化学調味料・保存料は一切不使用。素材本来の旨みだけで仕上げます。</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🌿</div>
+          <h3 class="pillar-title">旬の地産地消</h3>
+          <p class="pillar-desc">地元農家との連携で、その日の朝に届く新鮮な食材をその日のうちに。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── MENU ── -->
+  <section id="menu">
+    <div class="section-inner">
+      <p class="section-eyebrow fade-up">Menu</p>
+      <h2 class="section-title fade-up">メニュー</h2>
+      <p class="section-desc fade-up">
+        季節や天候によって素材が変わります。<br>
+        価格はすべて税込みです。
+      </p>
+
+      <!-- Drinks -->
+      <div class="menu-category">
+        <div class="menu-cat-label fade-up">
+          <span>🍃 Drink</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&q=80&fit=crop"
+              alt="森のハーブティー"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#D4E4D5">🍵</div>
+            <div class="menu-body">
+              <span class="menu-tag">Hot / Iced</span>
+              <p class="menu-name">森のハーブティー</p>
+              <p class="menu-name-en">Forest Herb Tea</p>
+              <p class="menu-desc">国内産のカモミール・レモンバーム・ローズマリーをブレンド。心と体を穏やかにほぐす一杯。</p>
+              <p class="menu-price">¥650<small>（税込）</small></p>
+            </div>
+          </div>
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80&fit=crop"
+              alt="木漏れ日コーヒー"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#D8C4A8">☕</div>
+            <div class="menu-body">
+              <span class="menu-tag">Hot / Iced</span>
+              <p class="menu-name">木漏れ日コーヒー</p>
+              <p class="menu-name-en">Komorebi Coffee</p>
+              <p class="menu-desc">有機栽培のコーヒー豆をフレンチプレスで丁寧に抽出。豊かな香りと柔らかな苦みが特徴。</p>
+              <p class="menu-price">¥700<small>（税込）</small></p>
+            </div>
+          </div>
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&q=80&fit=crop"
+              alt="緑の恵みスムージー"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#C4D8C4">🥤</div>
+            <div class="menu-body">
+              <span class="menu-tag">Cold</span>
+              <p class="menu-name">緑の恵みスムージー</p>
+              <p class="menu-name-en">Green Blessing Smoothie</p>
+              <p class="menu-desc">旬の葉野菜と有機バナナ・りんごで作る、やさしい甘さのグリーンスムージー。</p>
+              <p class="menu-price">¥800<small>（税込）</small></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Food -->
+      <div class="menu-category">
+        <div class="menu-cat-label fade-up">
+          <span>🌾 Food</span>
+        </div>
+        <div class="menu-grid">
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&q=80&fit=crop"
+              alt="森の実プレート"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#E4D8C4">🥗</div>
+            <div class="menu-body">
+              <span class="menu-tag">Plate</span>
+              <p class="menu-name">森の実プレート</p>
+              <p class="menu-name-en">Mori no Mi Plate</p>
+              <p class="menu-desc">有機野菜のサラダ・季節のスープ・自家製天然酵母パンのセット。日替わりメニューです。</p>
+              <p class="menu-price">¥1,200<small>（税込）</small></p>
+            </div>
+          </div>
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80&fit=crop"
+              alt="季節の彩りサラダ"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#D0E0D0">🥙</div>
+            <div class="menu-body">
+              <span class="menu-tag">Salad</span>
+              <p class="menu-name">季節の彩りサラダ</p>
+              <p class="menu-name-en">Seasonal Garden Salad</p>
+              <p class="menu-desc">その日の朝に届いた有機野菜を10種類以上使用。自家製ハーブドレッシングで召し上がれ。</p>
+              <p class="menu-price">¥950<small>（税込）</small></p>
+            </div>
+          </div>
+
+          <div class="menu-card fade-up">
+            <img
+              class="menu-img"
+              src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&q=80&fit=crop"
+              alt="大地のスープ"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="menu-img-placeholder" style="display:none;background:#D8C8B0">🍲</div>
+            <div class="menu-body">
+              <span class="menu-tag">Soup</span>
+              <p class="menu-name">大地のスープ</p>
+              <p class="menu-name-en">Earth's Harvest Soup</p>
+              <p class="menu-desc">地元野菜をじっくり煮込んだ滋味深いスープ。パン付きでお腹も心も温まります。</p>
+              <p class="menu-price">¥750<small>（税込）</small></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── ACCESS ── -->
+  <section id="access">
+    <div class="section-inner">
+      <p class="section-eyebrow fade-up">Access</p>
+      <h2 class="section-title fade-up">アクセス</h2>
+      <div class="access-grid">
+
+        <div class="map-box fade-up">
+          <div class="map-grid"></div>
+          <div class="map-roads"></div>
+          <div class="map-marker">📍</div>
+          <div class="map-label">🌿 森の実 Natural Café</div>
+        </div>
+
+        <div class="access-info fade-up">
+          <div class="access-block">
+            <p class="access-block-label"><span class="dot"></span>住所</p>
+            <div class="access-block-value">
+              <strong>〒150-0001</strong>
+              東京都渋谷区神宮前2-3-4<br>
+              グリーンテラスビル 1F
+            </div>
+          </div>
+          <div class="access-block">
+            <p class="access-block-label"><span class="dot"></span>営業時間</p>
+            <table class="access-hours-table">
+              <tr>
+                <td>月・水〜金</td>
+                <td>10:00 〜 19:00<br><small style="color:var(--text-muted)">（L.O. 18:30）</small></td>
+              </tr>
+              <tr>
+                <td>土・日・祝</td>
+                <td>9:00 〜 20:00<br><small style="color:var(--text-muted)">（L.O. 19:30）</small></td>
+              </tr>
+            </table>
+          </div>
+          <div class="access-block">
+            <p class="access-block-label"><span class="dot"></span>定休日</p>
+            <div class="access-block-value">毎週火曜日・第2水曜日</div>
+          </div>
+          <div class="access-block">
+            <p class="access-block-label"><span class="dot"></span>アクセス</p>
+            <div class="access-block-value">
+              東京メトロ副都心線「北参道駅」徒歩5分<br>
+              JR「原宿駅」徒歩12分<br>
+              お車でのご来店：近隣コインパーキングをご利用ください
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── CHEF ── -->
+  <section id="chef">
+    <div class="section-inner">
+      <div class="chef-grid">
+
+        <div class="chef-img-wrap fade-up">
+          <img
+            class="chef-img"
+            src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80&fit=crop"
+            alt="シェフ 田中 緑"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="chef-img-placeholder" style="display:none">👨‍🍳</div>
+          <div class="chef-deco"></div>
+        </div>
+
+        <div class="fade-up">
+          <span class="chef-tag">🌿 Chef</span>
+          <h2 class="chef-name">田中 緑</h2>
+          <p class="chef-name-ruby">MIDORI TANAKA — Head Chef</p>
+          <p class="chef-text">
+            自然豊かな長野県の農家に生まれ育ち、幼い頃から季節の食材と向き合うなかで「食」への深い愛着が芽生えました。
+            調理師専門学校を卒業後、フランスのオーガニックレストランで3年間修行。
+            土地の恵みを尊重したフランス料理の技法と、日本の繊細な食材感覚を融合させた独自のスタイルを確立しました。
+            帰国後は地元農家と緊密な連携を築き、「一皿で森の中にいるような感動を」という想いで毎日厨房に立っています。
+          </p>
+          <blockquote class="chef-sign">
+            「食材は生き物です。その日の状態をよく聴いて、<br>いちばん美味しい瞬間をお皿に閉じ込めたい。」
+          </blockquote>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── RESERVATION ── -->
+  <section id="reserve">
+    <div class="section-inner">
+      <p class="section-eyebrow fade-up">Reservation</p>
+      <h2 class="section-title fade-up">ご予約</h2>
+      <div class="reserve-layout">
+
+        <div class="fade-up">
+          <h3 class="reserve-info-title">お気軽にご予約ください</h3>
+          <p class="reserve-info-text">
+            ご予約はWebフォームにて24時間承っております。
+            確認後、メールまたはお電話にてご連絡いたします。
+          </p>
+          <ul class="reserve-notes">
+            <li>4名様以上のご予約はお電話にてご相談ください</li>
+            <li>アレルギーや食事制限のある方はメッセージ欄にご記入ください</li>
+            <li>キャンセルは前日18時までにご連絡をお願いします</li>
+            <li>TEL: 03-1234-5678（10:00〜18:00、火曜定休）</li>
+          </ul>
+        </div>
+
+        <div class="reserve-card fade-up">
+          <form id="reserve-form" novalidate>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="r-date">ご来店日<span class="req">*</span></label>
+                <input type="date" id="r-date">
+                <span class="err-msg" id="err-date">日付を選択してください</span>
+              </div>
+              <div class="form-group">
+                <label for="r-time">ご来店時間<span class="req">*</span></label>
+                <div class="select-wrap">
+                  <select id="r-time">
+                    <option value="">選択してください</option>
+                    <option>10:00</option>
+                    <option>11:00</option>
+                    <option>12:00</option>
+                    <option>13:00</option>
+                    <option>14:00</option>
+                    <option>15:00</option>
+                    <option>16:00</option>
+                    <option>17:00</option>
+                    <option>18:00</option>
+                  </select>
+                </div>
+                <span class="err-msg" id="err-time">時間を選択してください</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="r-people">人数<span class="req">*</span></label>
+              <div class="select-wrap">
+                <select id="r-people">
+                  <option value="">選択してください</option>
+                  <option>1名</option>
+                  <option>2名</option>
+                  <option>3名</option>
+                  <option>4名</option>
+                  <option>5名</option>
+                  <option>6名</option>
+                </select>
+              </div>
+              <span class="err-msg" id="err-people">人数を選択してください</span>
+            </div>
+
+            <div class="form-group">
+              <label for="r-name">お名前<span class="req">*</span></label>
+              <input type="text" id="r-name" placeholder="田中 花子">
+              <span class="err-msg" id="err-name">お名前を入力してください</span>
+            </div>
+
+            <div class="form-group">
+              <label for="r-tel">お電話番号<span class="req">*</span></label>
+              <input type="tel" id="r-tel" placeholder="090-0000-0000">
+              <span class="err-msg" id="err-tel">電話番号を入力してください</span>
+            </div>
+
+            <button type="submit" class="btn btn-sage" style="width:100%;justify-content:center;margin-top:4px">
+              🌿 予約を申し込む
+            </button>
+            <p id="form-note">※ デモ用フォームです。実際の予約は行われません。</p>
+          </form>
+
+          <div id="reserve-success">
+            🌿 ご予約の申し込みを受け付けました。<br>
+            確認後、24時間以内にご連絡いたします。<br>
+            <small style="color:var(--sage-dark)">森の実 Natural Café</small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <p class="footer-logo">森の実</p>
+          <p class="footer-tagline">Natural Organic Café — Tokyo, Harajuku</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="#concept">コンセプト</a>
+          <a href="#menu">メニュー</a>
+          <a href="#access">アクセス</a>
+          <a href="#chef">シェフ紹介</a>
+          <a href="#reserve">ご予約</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 森の実 Natural Café. All rights reserved.</p>
+        <p class="footer-sample">※ このサイトは制作サンプルです</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // ── ヘッダー透過 → 不透明 ──
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('solid', window.scrollY > 60);
+    });
+
+    // ── ハンバーガーメニュー ──
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navMenu.classList.toggle('open');
+    });
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      navMenu.classList.remove('open');
+    }
+
+    // ── スクロールアニメーション ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 90);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── 予約フォームバリデーション ──
+    document.getElementById('reserve-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fields = [
+        { el: document.getElementById('r-date'),   errId: 'err-date',   check: v => v !== '' },
+        { el: document.getElementById('r-time'),   errId: 'err-time',   check: v => v !== '' },
+        { el: document.getElementById('r-people'), errId: 'err-people', check: v => v !== '' },
+        { el: document.getElementById('r-name'),   errId: 'err-name',   check: v => v.trim() !== '' },
+        { el: document.getElementById('r-tel'),    errId: 'err-tel',    check: v => v.trim() !== '' },
+      ];
+
+      let ok = true;
+      fields.forEach(f => {
+        if (f.check(f.el.value)) {
+          f.el.classList.remove('err');
+          document.getElementById(f.errId).classList.remove('show');
+        } else {
+          f.el.classList.add('err');
+          document.getElementById(f.errId).classList.add('show');
+          ok = false;
+        }
+      });
+
+      if (ok) {
+        document.getElementById('reserve-form').style.display = 'none';
+        document.getElementById('form-note').style.display    = 'none';
+        document.getElementById('reserve-success').classList.add('show');
+      }
+    });
+
+    // ── 日付の最小値を今日に設定 ──
+    const dateInput = document.getElementById('r-date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+  </script>
+</body>
+</html>

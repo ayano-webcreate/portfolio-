@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BETWEEN THE LINES — HARU Solo Exhibition 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Josefin+Sans:wght@100;200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #070707;
+      --dark:     #0F0F0F;
+      --dark-2:   #161616;
+      --dark-3:   #1F1F1F;
+      --dark-4:   #2A2A2A;
+      --grey:     #6A6A6A;
+      --light:    #B0B0B0;
+      --white:    #EBEBEB;
+      --gold:     #C9A84C;
+      --gold-dim: #7A6225;
+      --border:   rgba(255,255,255,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Josefin Sans', system-ui, sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── INTRO OVERLAY ── */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      transition: opacity .8s ease;
+    }
+    #intro.out { opacity: 0; pointer-events: none; }
+
+    #intro-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .intro-line {
+      stroke: rgba(255,255,255,.85);
+      stroke-width: 1;
+      fill: none;
+      stroke-linecap: round;
+    }
+    #intro-flash {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 300vmax; height: 300vmax;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, rgba(255,255,255,.6) 25%, transparent 65%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform .38s cubic-bezier(.25,.46,.45,.94), opacity .38s ease;
+    }
+    #intro-flash.bloom {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    #intro-flash.fade {
+      transition: opacity .55s ease;
+      opacity: 0;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .sr {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .sr.on { opacity: 1; transform: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 500;
+      transition: background .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+    header.solid {
+      background: rgba(7,7,7,.94);
+      backdrop-filter: blur(12px);
+      border-color: var(--border);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    nav ul { list-style: none; display: flex; gap: 40px; }
+    nav a {
+      font-size: .68rem;
+      font-weight: 200;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--light);
+      transition: color .2s;
+      position: relative;
+      padding-bottom: 3px;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width .3s;
+    }
+    nav a:hover { color: var(--white); }
+    nav a:hover::after { width: 100%; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 1px;
+      background: var(--white);
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 40px 60px;
+      background: var(--black);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Decorative diagonal gold lines in background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 1px; height: 40vh;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+      top: 0; left: 15%;
+      opacity: .35;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 1px; height: 40vh;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+      bottom: 0; right: 15%;
+      opacity: .35;
+    }
+
+    .hero-label {
+      font-size: .6rem;
+      font-weight: 200;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      /* animated in after intro */
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 1s ease .05s, transform 1s ease .05s;
+    }
+    body.intro-done .hero-label { opacity: 1; transform: none; }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 8vw, 7rem);
+      font-weight: 300;
+      letter-spacing: clamp(4px, 2vw, 20px);
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease .2s, transform 1.2s ease .2s;
+    }
+    body.intro-done .hero-title { opacity: 1; transform: none; }
+
+    .hero-rule {
+      width: 80px; height: 1px;
+      background: var(--gold);
+      margin: 0 auto 32px;
+      opacity: 0;
+      transition: opacity 1s ease .5s, width 1.2s ease .5s;
+    }
+    body.intro-done .hero-rule { opacity: 1; }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 1s ease .65s, transform 1s ease .65s;
+    }
+    body.intro-done .hero-meta { opacity: 1; transform: none; }
+
+    .hero-artist {
+      font-size: .75rem;
+      font-weight: 100;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+    .hero-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      color: var(--white);
+    }
+    .hero-venue {
+      font-size: .65rem;
+      font-weight: 200;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .hero-cta {
+      margin-top: 48px;
+      opacity: 0;
+      transition: opacity 1s ease .9s;
+    }
+    body.intro-done .hero-cta { opacity: 1; }
+
+    .btn-gold {
+      display: inline-block;
+      padding: 14px 40px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: .65rem;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      transition: all .3s;
+    }
+    .btn-gold:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 1s ease 1.2s;
+    }
+    body.intro-done .hero-scroll { opacity: 1; }
+    .hero-scroll span {
+      font-size: .55rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--grey);
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--grey), transparent);
+      animation: pulse-line 2s ease-in-out infinite;
+    }
+    @keyframes pulse-line {
+      0%,100% { opacity: .4; transform: scaleY(1); }
+      50%      { opacity: .8; transform: scaleY(.6); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 120px 40px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-no {
+      font-size: .55rem;
+      font-weight: 200;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .section-no::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    /* ── CONCEPT ── */
+    #concept {
+      background: var(--dark);
+      text-align: center;
+      padding: 140px 40px;
+    }
+    .concept-inner { max-width: 680px; margin: 0 auto; }
+
+    .concept-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 1.9rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.75;
+      letter-spacing: 1px;
+      margin-bottom: 40px;
+    }
+    .concept-quote em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .concept-body {
+      font-size: .78rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      color: var(--grey);
+      line-height: 2.2;
+    }
+
+    /* ── WORKS ── */
+    #works { background: var(--black); padding: 120px 40px; }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 60px;
+    }
+
+    .work-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--dark-3);
+    }
+    .work-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+      transition: transform .8s cubic-bezier(.25,.46,.45,.94), filter .8s;
+      filter: brightness(.85) grayscale(.1);
+    }
+    .work-img-fallback {
+      width: 100%;
+      aspect-ratio: 4/5;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .work-item:hover .work-img {
+      transform: scale(1.04);
+      filter: brightness(.95) grayscale(0);
+    }
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      transition: background .4s;
+    }
+    .work-item:hover .work-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.2) 50%);
+    }
+    .work-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.12);
+      line-height: 1;
+      position: absolute;
+      top: 24px; right: 28px;
+      transition: color .4s;
+    }
+    .work-item:hover .work-num { color: rgba(201,168,76,.3); }
+    .work-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .work-sub {
+      font-size: .6rem;
+      font-weight: 200;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    /* Gold line on hover at top */
+    .work-item::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .5s ease;
+    }
+    .work-item:hover::after { transform: scaleX(1); }
+
+    /* ── PROFILE ── */
+    #profile { background: var(--dark-2); padding: 120px 40px; }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .profile-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: grayscale(.3);
+    }
+    .profile-img-fallback {
+      width: 100%;
+      aspect-ratio: 3/4;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: var(--dark-3);
+      font-size: .65rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+
+    .profile-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .profile-title {
+      font-size: .6rem;
+      font-weight: 200;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 36px;
+    }
+    .profile-bio {
+      font-size: .78rem;
+      font-weight: 200;
+      letter-spacing: 1.5px;
+      color: var(--light);
+      line-height: 2.2;
+      margin-bottom: 28px;
+    }
+    .profile-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+    .profile-list li {
+      display: flex;
+      gap: 16px;
+      font-size: .65rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      color: var(--grey);
+    }
+    .profile-list li span:first-child { color: var(--gold); min-width: 40px; }
+
+    /* ── ACCESS ── */
+    #access { background: var(--black); padding: 120px 40px; }
+
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      margin-top: 60px;
+    }
+
+    /* CSS Map */
+    .map-box {
+      aspect-ratio: 4/3;
+      background: var(--dark-3);
+      position: relative;
+      overflow: hidden;
+    }
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-roads {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.09) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255,255,255,.09) 2px, transparent 2px);
+      background-size: 120px 120px;
+    }
+    .map-marker {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .map-marker-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 20px rgba(201,168,76,.6);
+    }
+    .map-marker-line {
+      width: 1px;
+      height: 20px;
+      background: var(--gold-dim);
+    }
+    .map-marker-label {
+      background: var(--gold);
+      color: var(--black);
+      font-size: .55rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .access-info {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .access-block-label {
+      font-size: .55rem;
+      font-weight: 200;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .access-block-value {
+      font-size: .75rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      color: var(--light);
+      line-height: 2;
+    }
+
+    /* ── RESERVE ── */
+    #reserve {
+      background: var(--dark);
+      padding: 140px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Animated ring */
+    #reserve::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,.06);
+      transform: translate(-50%, -50%);
+      animation: ring-breathe 8s ease-in-out infinite;
+    }
+    @keyframes ring-breathe {
+      0%,100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      50%      { transform: translate(-50%, -50%) scale(1.06); opacity: .5; }
+    }
+
+    .reserve-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .reserve-eyebrow {
+      font-size: .55rem;
+      font-weight: 200;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 20px;
+    }
+    .reserve-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .reserve-desc {
+      font-size: .68rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      color: var(--grey);
+      margin-bottom: 56px;
+    }
+
+    .reserve-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+    .form-field {
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      background: var(--dark-2);
+      padding: 18px 20px 14px;
+      transition: background .2s;
+    }
+    .form-field:focus-within { background: var(--dark-3); }
+    .form-field label {
+      display: block;
+      font-size: .52rem;
+      font-weight: 200;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: .75rem;
+      font-weight: 200;
+      letter-spacing: 1.5px;
+      color: var(--white);
+      padding: 0;
+      appearance: none;
+    }
+    .form-field select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 5 5-5' stroke='%236A6A6A' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 20px;
+    }
+    .form-field input::placeholder { color: var(--dark-4); }
+    .form-field input.err { border-bottom-color: #C04040; }
+    .err-msg {
+      display: none;
+      font-size: .55rem;
+      color: #C04040;
+      letter-spacing: 1px;
+      margin-top: 3px;
+    }
+    .err-msg.show { display: block; }
+
+    .reserve-btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: inherit;
+      font-size: .65rem;
+      font-weight: 200;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .3s;
+      margin-top: 1px;
+    }
+    .reserve-btn:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    #reserve-success {
+      display: none;
+      font-size: .72rem;
+      font-weight: 200;
+      letter-spacing: 3px;
+      color: var(--light);
+      padding: 24px;
+      border: 1px solid var(--border);
+      margin-top: 16px;
+      line-height: 1.9;
+    }
+    #reserve-success.show { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 40px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .9rem;
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .footer-copy {
+      font-size: .6rem;
+      font-weight: 200;
+      letter-spacing: 2px;
+      color: #333;
+    }
+    .footer-sample {
+      font-size: .58rem;
+      letter-spacing: 1px;
+      color: #2A2A2A;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .works-grid { grid-template-columns: 1fr; }
+      .profile-grid { grid-template-columns: 1fr; gap: 48px; }
+      .access-grid  { grid-template-columns: 1fr; }
+      .form-row     { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 88px 24px; }
+      .header-inner { padding: 0 24px; }
+      nav ul {
+        display: none;
+        position: fixed;
+        top: 72px; left: 0;
+        width: 100%;
+        background: rgba(7,7,7,.97);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 0;
+      }
+      nav ul.open { display: flex; }
+      nav a {
+        display: block;
+        padding: 16px 28px;
+        font-size: .7rem;
+        letter-spacing: 3px;
+      }
+      nav a::after { display: none; }
+      .hamburger { display: flex; }
+      .hero-title { letter-spacing: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── INTRO ANIMATION ── -->
+  <div id="intro">
+    <svg id="intro-svg" xmlns="http://www.w3.org/2000/svg">
+      <line class="intro-line" id="il0"/>
+      <line class="intro-line" id="il1"/>
+      <line class="intro-line" id="il2"/>
+    </svg>
+    <div id="intro-flash"></div>
+  </div>
+
+
+  <!-- ── HEADER ── -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="logo">HARU</a>
+      <nav>
+        <ul id="nav-menu">
+          <li><a href="#works"   onclick="closeMenu()">Works</a></li>
+          <li><a href="#profile" onclick="closeMenu()">Profile</a></li>
+          <li><a href="#access"  onclick="closeMenu()">Access</a></li>
+          <li><a href="#reserve" onclick="closeMenu()">Reserve</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <p class="hero-label">Solo Exhibition 2026</p>
+    <h1 class="hero-title">Between<br>the Lines</h1>
+    <div class="hero-rule"></div>
+    <div class="hero-meta">
+      <p class="hero-artist">HARU</p>
+      <p class="hero-date">14 June — 20 July 2026</p>
+      <p class="hero-venue">Gallery Void &nbsp;·&nbsp; Roppongi, Tokyo</p>
+    </div>
+    <div class="hero-cta">
+      <a href="#reserve" class="btn-gold">Reserve Your Spot</a>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+
+  <!-- ── CONCEPT ── -->
+  <section id="concept">
+    <div class="concept-inner">
+      <p class="section-no sr">Concept</p>
+      <blockquote class="concept-quote sr">
+        "Between the lines, <em>silence speaks.</em><br>
+        Between the forms, truth waits."
+      </blockquote>
+      <p class="concept-body sr">
+        HARU invites you to explore the invisible — the tension between what is drawn and what is left undrawn, between presence and absence. These works are not finished. They await your gaze to complete them.
+        <br><br>
+        Working across drawing, painting, and installation, this exhibition traces a decade of searching — for the moment before meaning, for the space where a line becomes a breath.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ── WORKS ── -->
+  <section id="works">
+    <div class="section-inner">
+      <p class="section-no sr">Works</p>
+      <div class="works-grid">
+
+        <div class="work-item sr">
+          <img class="work-img"
+               src="https://images.unsplash.com/photo-1549490349-8643362247b5?w=800&q=85&fit=crop"
+               alt="THRESHOLD"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="work-img-fallback" style="background:linear-gradient(160deg,#1a1a1a,#2d1f1f,#0a0a0a)">
+          </div>
+          <div class="work-overlay">
+            <span class="work-num">I</span>
+            <p class="work-name">Threshold</p>
+            <p class="work-sub">Oil &amp; graphite on canvas &nbsp;·&nbsp; 2024</p>
+          </div>
+        </div>
+
+        <div class="work-item sr">
+          <img class="work-img"
+               src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=85&fit=crop"
+               alt="RESONANCE"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="work-img-fallback" style="background:linear-gradient(210deg,#1a1a2e,#0d0d1a,#111)">
+          </div>
+          <div class="work-overlay">
+            <span class="work-num">II</span>
+            <p class="work-name">Resonance</p>
+            <p class="work-sub">Ink on Japanese paper &nbsp;·&nbsp; 2025</p>
+          </div>
+        </div>
+
+        <div class="work-item sr">
+          <img class="work-img"
+               src="https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=800&q=85&fit=crop"
+               alt="THE WEIGHT OF LIGHT"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="work-img-fallback" style="background:linear-gradient(135deg,#2d1b1b,#1a0f0f,#3d2020)">
+          </div>
+          <div class="work-overlay">
+            <span class="work-num">III</span>
+            <p class="work-name">The Weight of Light</p>
+            <p class="work-sub">Oil on linen &nbsp;·&nbsp; 2025</p>
+          </div>
+        </div>
+
+        <div class="work-item sr">
+          <img class="work-img"
+               src="https://images.unsplash.com/photo-1531913764164-f85c52e6e654?w=800&q=85&fit=crop"
+               alt="BETWEEN"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="work-img-fallback" style="background:linear-gradient(315deg,#111,#1e1e1e,#0a0a0a)">
+          </div>
+          <div class="work-overlay">
+            <span class="work-num">IV</span>
+            <p class="work-name">Between</p>
+            <p class="work-sub">Mixed media installation &nbsp;·&nbsp; 2026</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── PROFILE ── -->
+  <section id="profile">
+    <div class="section-inner">
+      <p class="section-no sr">Artist</p>
+      <div class="profile-grid">
+
+        <div class="sr">
+          <img class="profile-img"
+               src="Artist.jpg"
+               alt="HARU"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="profile-img-fallback">HARU — Portrait</div>
+        </div>
+
+        <div class="sr">
+          <h2 class="profile-name">HARU</h2>
+          <p class="profile-title">Contemporary Visual Artist &nbsp;·&nbsp; Tokyo</p>
+          <p class="profile-bio">
+            HARU is a contemporary visual artist whose practice spans drawing, painting, and large-scale installation. Born in Kyoto, based in Tokyo, their work investigates the poetics of restraint — the line as breath, the void as language, the unfinished as an act of courage.
+          </p>
+          <p class="profile-bio">
+            Drawn to the charged space between intention and accident, HARU constructs works that resist completion, inviting the viewer's gaze to activate meaning. The result is a body of work that is simultaneously intimate and architectural, quiet and demanding.
+          </p>
+          <ul class="profile-list">
+            <li><span>2026</span><span>Gallery Void, Tokyo — Solo Exhibition</span></li>
+            <li><span>2024</span><span>White Cube Annex, London — Group Show</span></li>
+            <li><span>2023</span><span>Galerie Eigen+Art, Berlin — Solo Exhibition</span></li>
+            <li><span>Coll.</span><span>National Museum of Modern Art, Tokyo</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── ACCESS ── -->
+  <section id="access">
+    <div class="section-inner">
+      <p class="section-no sr">Access</p>
+      <div class="access-grid">
+
+        <div class="map-box sr">
+          <div class="map-grid"></div>
+          <div class="map-roads"></div>
+          <div class="map-marker">
+            <div class="map-marker-dot"></div>
+            <div class="map-marker-line"></div>
+            <div class="map-marker-label">Gallery Void</div>
+          </div>
+        </div>
+
+        <div class="access-info sr">
+          <div>
+            <p class="access-block-label">Venue</p>
+            <p class="access-block-value">
+              Gallery Void<br>
+              6-11-1 Roppongi, Minato-ku<br>
+              Tokyo, Japan 106-0032
+            </p>
+          </div>
+          <div>
+            <p class="access-block-label">Hours</p>
+            <p class="access-block-value">
+              Tuesday – Sunday<br>
+              11:00 – 20:00<br>
+              <span style="color:var(--grey)">Closed Mondays &amp; Public Holidays</span>
+            </p>
+          </div>
+          <div>
+            <p class="access-block-label">Access</p>
+            <p class="access-block-value">
+              Tokyo Metro Hibiya Line<br>
+              Roppongi Station — Exit 1C, 3 min walk<br>
+              <span style="color:var(--grey)">Parking not available. Please use public transport.</span>
+            </p>
+          </div>
+          <div>
+            <p class="access-block-label">Admission</p>
+            <p class="access-block-value">
+              General ¥1,200 &nbsp;·&nbsp; Students ¥800<br>
+              <span style="color:var(--grey)">Advance reservation recommended</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── RESERVE ── -->
+  <section id="reserve">
+    <div class="reserve-inner">
+      <p class="reserve-eyebrow sr">Reservation</p>
+      <h2 class="reserve-title sr">Reserve Your Spot</h2>
+      <p class="reserve-desc sr">
+        Secure your visit in advance.<br>
+        Confirmation will be sent to your email within 24 hours.
+      </p>
+
+      <form id="reserve-form" class="reserve-form sr" novalidate>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="r-name">Full Name *</label>
+            <input type="text" id="r-name" placeholder="Your name">
+            <span class="err-msg" id="err-name">Please enter your name</span>
+          </div>
+          <div class="form-field">
+            <label for="r-email">Email *</label>
+            <input type="email" id="r-email" placeholder="your@email.com">
+            <span class="err-msg" id="err-email">Please enter a valid email</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="r-date">Preferred Date *</label>
+            <input type="date" id="r-date">
+            <span class="err-msg" id="err-date">Please select a date</span>
+          </div>
+          <div class="form-field">
+            <label for="r-guests">Guests *</label>
+            <select id="r-guests">
+              <option value="">Select</option>
+              <option>1 person</option>
+              <option>2 persons</option>
+              <option>3 persons</option>
+              <option>4 persons</option>
+              <option>5+ persons</option>
+            </select>
+            <span class="err-msg" id="err-guests">Please select number of guests</span>
+          </div>
+        </div>
+        <button type="submit" class="reserve-btn">Confirm Reservation</button>
+      </form>
+
+      <div id="reserve-success" class="sr">
+        Your reservation request has been received.<br>
+        We will contact you at the provided email within 24 hours.
+      </div>
+
+      <p style="margin-top:32px;font-size:.55rem;letter-spacing:2px;color:#2A2A2A" class="sr">
+        ※ このサイトは制作サンプルです
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-logo">HARU — Between the Lines</p>
+      <p class="footer-copy">&copy; 2026 Gallery Void. All rights reserved.</p>
+      <p class="footer-sample">※ このサイトは制作サンプルです</p>
+    </div>
+  </footer>
+
+
+  <script>
+    /* ── OPENING ANIMATION ── */
+    (function () {
+      const svg   = document.getElementById('intro-svg');
+      const flash = document.getElementById('intro-flash');
+      const intro = document.getElementById('intro');
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const cx = vw / 2;
+      const cy = vh / 2;
+
+      // Line configs: [x1, y1, x2, y2]
+      const lineData = [
+        [0,       cy,      cx, cy],   // Line 1 : from left → center (horizontal)
+        [vw,      0,       cx, cy],   // Line 2 : from top-right → center (diagonal)
+        [cx * .2, vh,      cx, cy],   // Line 3 : from bottom-left → center (diagonal)
+      ];
+
+      const lineEls = svg.querySelectorAll('.intro-line');
+
+      lineEls.forEach((el, i) => {
+        const [x1, y1, x2, y2] = lineData[i];
+        el.setAttribute('x1', x1);
+        el.setAttribute('y1', y1);
+        el.setAttribute('x2', x2);
+        el.setAttribute('y2', y2);
+        const len = Math.hypot(x2 - x1, y2 - y1);
+        el.style.strokeDasharray  = len;
+        el.style.strokeDashoffset = len;
+
+        // Stagger: line 0 at 100ms, line 1 at 280ms, line 2 at 460ms
+        setTimeout(() => {
+          el.style.transition = 'stroke-dashoffset .75s cubic-bezier(.25,.46,.45,.94)';
+          el.style.strokeDashoffset = 0;
+        }, 100 + i * 180);
+      });
+
+      // Flash bloom at 1.1s
+      setTimeout(() => {
+        flash.style.transition = 'transform .35s cubic-bezier(.25,.46,.45,.94), opacity .35s ease';
+        flash.style.transform  = 'translate(-50%, -50%) scale(1)';
+        flash.style.opacity    = '1';
+
+        // Start fading flash at 1.45s
+        setTimeout(() => {
+          flash.style.transition = 'opacity .55s ease';
+          flash.style.opacity    = '0';
+        }, 350);
+      }, 1100);
+
+      // Fade out overlay at 2.0s
+      setTimeout(() => {
+        intro.classList.add('out');
+        document.body.classList.add('intro-done');
+        setTimeout(() => intro.remove(), 850);
+      }, 2000);
+    })();
+
+    /* ── HEADER ── */
+    const siteHeader = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      siteHeader.classList.toggle('solid', window.scrollY > 80);
+    }, { passive: true });
+
+    /* ── HAMBURGER ── */
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navMenu.classList.toggle('open');
+    });
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      navMenu.classList.remove('open');
+    }
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('on'), i * 100);
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.sr').forEach(el => revealObs.observe(el));
+
+    /* ── RESERVATION FORM ── */
+    // Set min date to today
+    const dateInput = document.getElementById('r-date');
+    dateInput.min = new Date().toISOString().split('T')[0];
+
+    document.getElementById('reserve-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const fields = [
+        { el: document.getElementById('r-name'),   err: 'err-name',   ok: v => v.trim() !== '' },
+        { el: document.getElementById('r-email'),  err: 'err-email',  ok: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+        { el: document.getElementById('r-date'),   err: 'err-date',   ok: v => v !== '' },
+        { el: document.getElementById('r-guests'), err: 'err-guests', ok: v => v !== '' },
+      ];
+      let valid = true;
+      fields.forEach(f => {
+        const pass = f.ok(f.el.value);
+        f.el.classList.toggle('err', !pass);
+        document.getElementById(f.err).classList.toggle('show', !pass);
+        if (!pass) valid = false;
+      });
+      if (valid) {
+        document.getElementById('reserve-form').style.display = 'none';
+        const success = document.getElementById('reserve-success');
+        success.classList.add('show');
+        setTimeout(() => success.classList.add('on'), 50);
+      }
+    });
+  </script>
+</body>
+</html>
